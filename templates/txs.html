@@ -1,0 +1,123 @@
+{% extends "index.html" %} {% block content %}
+<div class="page">
+  <div class="block-number">Block: <b>{{block_num}}</b></div>
+  {% for tx in txs %}
+
+  <!-- ETHER TRANSFER -->
+  {% if tx.type == 0 %}
+  <div class="tx-body">
+    <div class="tx-type">[Ether transfer]</div>
+    <div class="tx-hash">
+      <a
+        href="https://etherscan.io/tx/{{tx.hash}}"
+        target="_blank"
+        rel="noopener"
+      >
+        view tx</a
+      >
+    </div>
+    <div class="tx-description">
+      <a
+        href="https://etherscan.io/address/{{tx.from_}}"
+        target="_blank"
+        rel="noopener"
+        >{{tx.from_|truncate(11, True)}}</a
+      >
+      sent {{ (tx.value / 10**18)|string }} ether to
+      <a
+        href="https://etherscan.io/address/{{tx.to}}"
+        target="_blank"
+        rel="noopener"
+        >{{tx.to|truncate(11, True)}}</a
+      >.
+    </div>
+  </div>
+
+  <!-- CONTRACT DEPLOYMENT -->
+  {% elif tx.type == 1 %}
+  <div class="tx-body">
+    <div class="tx-type">[Contract deployment]</div>
+    <div class="tx-hash">
+      <a
+        href="https://etherscan.io/tx/{{tx.hash}}"
+        target="_blank"
+        rel="noopener"
+      >
+        view tx</a
+      >
+    </div>
+    <div class="tx-description">
+      <a
+        href="https://etherscan.io/address/{{tx.from_}}"
+        target="_blank"
+        rel="noopener"
+        >{{tx.from_|truncate(11, True)}}</a
+      >
+      deployed a new contract.
+    </div>
+  </div>
+
+  <!-- CONTRACT INTERACTION -->
+  {% elif tx.type == 2 %}
+  <div class="tx-body">
+    <div class="tx-type">[Contract interaction]</div>
+    <div class="tx-hash">
+      <a
+        href="https://etherscan.io/tx/{{tx.hash}}"
+        target="_blank"
+        rel="noopener"
+      >
+        view tx</a
+      >
+    </div>
+    <div class="tx-description">
+      <a
+        href="https://etherscan.io/address/{{tx.from_}}"
+        target="_blank"
+        rel="noopener"
+        >{{tx.from_|truncate(11, True)}}</a
+      >
+      interacted with a contract deployed at the address
+      <a
+        href="https://etherscan.io/address/{{tx.to}}"
+        target="_blank"
+        rel="noopener"
+        >{{tx.to|truncate(11, True)}}</a
+      >.
+    </div>
+
+    <!-- SOURCIFY RESULTS -->
+    {% if tx.sourcify %}
+    <div class="sourcify-body">
+      <div class="sourcify-title">Sourcify results</div>
+      <div>
+        <b>Compilation target</b>
+        <div class="sourcify-value-body">
+          {{tx['sourcify']['settings']['compilationTarget']}}
+        </div>
+      </div>
+      <div>
+        <b>Function signature</b>
+        <div class="sourcify-value-body">{{tx.function_sig}}</div>
+      </div>
+      <div>
+        <b>Decoded transaction input</b>
+        <div class="sourcify-value-body">
+          {% for input in tx.decoded_inputs.items() %}
+          <b>{{input[0]}}:</b>
+          <div class="tx-decoded-input-def">
+            <!-- challenge: find anything more brittle than this -->
+            {{tx.sourcify['output']['devdoc']['methods'][tx.function_sig]['params'][input[0]]}}
+          </div>
+          <div class="tx-decoded-input-value">{{input[1]}}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  {% else %}
+  <div>Tx type not recognized!</div>
+  {% endif %} {% endfor %}
+</div>
+{% endblock %}

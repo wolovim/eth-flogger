@@ -1,0 +1,85 @@
+body {
+  font-weight: 400;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
+  background-color: cornsilk;
+}
+
+a:link {
+  color: #006ba6;
+}
+
+a:visited {
+  color: #006ba6;
+}
+
+.block-number {
+  color: #8f2d56;
+  font-size: 1.4em;
+  margin: 16px 0 0 6px;
+}
+
+.tx-body {
+  color: #555;
+  background-color: white;
+  border-color: #006ba6;
+  margin: 16px 6px;
+  border: solid #006ba6 2px;
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 6px 6px #006ba6;
+}
+
+.tx-type {
+  color: #d81159;
+  display: inline-block;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.tx-hash {
+  display: inline-block;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.tx-description {
+  margin-top: 6px;
+}
+
+.sourcify-body {
+  border: solid #d81159 2px;
+  border-radius: 4px;
+  box-shadow: 6px 6px #d81159;
+  padding: 12px;
+  margin: 12px 6px;
+}
+
+.sourcify-title {
+  color: #d81159;
+  font-size: 1.2em;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.sourcify-value-body {
+  padding: 12px;
+  background: #eee;
+  margin: 6px 12px 12px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.tx-decoded-input-def {
+  margin-bottom: 6px;
+  font-style: italic;
+  color: #888;
+}
+
+.tx-decoded-input-value {
+  max-width: 100%;
+  overflow: scroll;
+  padding: 6px 12px;
+  margin-bottom: 12px;
+}

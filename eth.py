@@ -3,10 +3,15 @@ import aiohttp
 import asyncio
 import json
 import requests
-from web3 import AsyncWeb3, AsyncHTTPProvider, Web3, HTTPProvider
-from pprint import pprint
+from web3 import AsyncWeb3, AsyncHTTPProvider
 
 w3 = AsyncWeb3(AsyncHTTPProvider("https://rpc.ankr.com/eth"))
+
+TX_COUNT = 10
+
+
+async def get_safe_block_number():
+    return await w3.eth.block_number
 
 
 async def block_query(num):
@@ -19,7 +24,7 @@ async def block_query(num):
         b = await w3.eth.get_block("safe")
 
     for result in asyncio.as_completed(
-        [fetch_tx(tx_hash) for tx_hash in b.transactions[:10]]
+        [w3.eth.get_transaction(tx_hash) for tx_hash in b.transactions[:TX_COUNT]]
     ):
         t = await result
         tx = {
@@ -37,7 +42,7 @@ async def block_query(num):
         try:
             print(f"\nTx: {t.transactionIndex}")
         except:
-            print("couldnt get transaction index?")
+            print("couldnt get transaction index")
             break
 
         # CONTRACT DEPLOYMENT:
@@ -77,10 +82,3 @@ async def block_query(num):
         txs.append(tx)
 
     return b, txs
-
-
-async def fetch_tx(tx_hash):
-    try:
-        return await w3.eth.get_transaction(tx_hash)
-    except:
-        print("TransactionNotFound Exception")

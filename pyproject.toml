@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "eth-flogger"
+version = "0.1.0"
+description = "Ethereum Flask Logger"
+authors = ["wolovim"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "eth_flogger"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^2.2.3"
+flask-sqlalchemy = "^3.0.3"
+flask-migrate = "^4.0.4"
+aiohttp = "^3.8.4"
+web3 = "^6.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
